@@ -1,0 +1,7 @@
+Test::ClientServer
+==================
+
+This is a Perl 6 module to make tests involving network daemons and whatnot a bit easier to write
+and understand. It works by poorly emulating a fork using bash commands, and then running
+server/client code blocks in the child processes. Read `t/simple-socket.t` for an example of how to
+use it.
