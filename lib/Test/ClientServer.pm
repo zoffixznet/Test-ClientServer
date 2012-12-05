@@ -12,14 +12,21 @@ has &!server = { fail 'server code not defined' };
 has Int $!timeout = 60;
 
 method run() {
-    if !defined(my $pid = self.spork()) {
-        exit;
-    }
-    elsif $pid > 0 {
-        &!server({ sleep 1 });
-    }
-    else {
-        &!client({ sleep 5 });
+    given self.spork() {
+        when ForkDirection::parent {
+$*ERR.say: 'parent exiting';
+            return;
+        }
+        when ForkDirection::server {
+$*ERR.say: 'attempting to run server';
+            &!server({ sleep 1 });
+            exit;
+        }
+        when ForkDirection::client {
+$*ERR.say: 'attempting to run client';
+            &!client({ sleep 5 });
+            exit;
+        }
     }
 }
 
@@ -29,14 +36,18 @@ method spork() returns ForkDirection {
         return ForkDirection::client when 'client';
     }
 
-    run(q:c:to<FI>);
-        ( TEST_CLIENTSERVER_FORK="server" perl6 {$?FILE} ) & \
-        server_pid=$! \
-        ( TEST_CLIENTSERVER_FORK="client" perl6 {$?FILE} ) & \
-        client_pid=$! \
-        sleep {$!timeout} \
-        kill $server_pid $client_pid
-    FI
+$*ERR.say: 'attempting to fork';
+
+$*ERR.say:
+    run(join(q{ ; },
+        'set -x',
+        'TEST_CLIENTSERVER_FORK="server" perl6 "' ~ $?FILE ~ '" &',
+        'server_pid=$!',
+        'TEST_CLIENTSERVER_FORK="client" perl6 "' ~ $?FILE ~ '" &',
+        'client_pid=$!',
+        'sleep ' ~ $!timeout,
+        'kill $server_pid $client_pid',
+    ));
 
     return ForkDirection::parent;
 }
