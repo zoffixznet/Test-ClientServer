@@ -1,0 +1,7 @@
+{
+    "name"          : "Test-ClientServer",
+    "version"       : "1.0.0",
+    "description"   : "Fork a single test file for testing network server/client code",
+    "depends"       : [],
+    "source-url"    : "git://github.com/flussence/Test-ClientServer.git"
+}
