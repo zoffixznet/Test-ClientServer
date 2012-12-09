@@ -1,6 +1,5 @@
 #!/usr/bin/env perl6
 use Test::ClientServer;
-use Test;
 
 # I didn't feel like writing complicated free-port-finding code, so let's just
 # hope nobody's still running XFree86.
@@ -11,18 +10,19 @@ my $port = 7100;
     # :client is a sub that takes one argument, a callback that's supposed to
     # block until the server becomes ready.
     client => sub (&client-ready-callback) {
+        use Test;
         plan 1;
-
-        my $socket = IO::Socket::INET.new(
-            :localhost('127.0.0.1'),
-            :localport($port),
-        );
 
         &client-ready-callback();
 
-        my Str $sent = ('a'..'z').join;
+        my $socket = IO::Socket::INET.new(
+            :host('127.0.0.1'),
+            :port($port),
+        );
+
+        my Str $sent = 'The quick brown fox jumped over the lazy dog';
         $socket.send($sent);
-        my $received = $socket.recv();
+        my Str $received = $socket.recv();
 
         is($received, $sent, 'echo test');
     },
