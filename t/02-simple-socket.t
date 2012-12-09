@@ -13,6 +13,7 @@ my $port = 7100;
         use Test;
         plan 1;
 
+        # Call this *before* connecting - it will block until the server is up.
         &client-ready-callback();
 
         my $socket = IO::Socket::INET.new(
@@ -35,6 +36,7 @@ my $port = 7100;
             :listen
         );
 
+        # Call this *after* the server is ready.
         &server-ready-callback();
 
         my $client = $socket.accept();

@@ -5,6 +5,6 @@ use Test::ClientServer;
 # client has to echo it again. Yes I know this is stupid.
 .run given Test::ClientServer.new(
     client => sub (&callback) { &callback(); .say for $*IN.lines; },
-    server => sub (&callback) { use Test; &callback(); plan 1; ok('server code reached'); },
+    server => sub (&callback) { use Test; &callback(); plan 1; pass('server code reached'); },
     :timeout(10),
 );
