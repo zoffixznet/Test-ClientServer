@@ -1,17 +1,18 @@
 #!/usr/bin/env perl6
 use Test::ClientServer;
 use Test;
-plan 1;
 
 # I didn't feel like writing complicated free-port-finding code, so let's just
 # hope nobody's still running XFree86.
 my $port = 7100;
 
-# do a simple echo server, like S32-io/IO-Socket-INET.t does.
+# do a simple network echo server, like S32-io/IO-Socket-INET.t does.
 .run given Test::ClientServer.new(
     # :client is a sub that takes one argument, a callback that's supposed to
     # block until the server becomes ready.
     client => sub (&client-ready-callback) {
+        plan 1;
+
         my $socket = IO::Socket::INET.new(
             :localhost('127.0.0.1'),
             :localport($port),
@@ -41,7 +42,7 @@ my $port = 7100;
         $client.send($buf);
         $client.close();
     },
-    # :timeout is 60 seconds by default. If anything is still running by then
+    # :timeout is 30 seconds by default. If anything is still running by then
     # it's killed.
-    timeout => 20
+    :timeout(10),
 );

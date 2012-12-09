@@ -1,10 +1,10 @@
 #!/usr/bin/env perl6
 use Test::ClientServer;
-use Test;
-plan 1;
 
-# just returns "ok" from the server code
+# Returns "ok" from the server code. The server's stdout is piped to the client's stdin, so the
+# client has to echo it again.
 .run given Test::ClientServer.new(
-    client => sub (&callback) { &callback() },
-    server => sub (&callback) { &callback(); ok('server code reached') }
+    client => sub (&callback) { &callback(); say $*IN.get; },
+    server => sub (&callback) { use Test; &callback(); plan 1; ok('server code reached'); },
+    :timeout(10),
 );
