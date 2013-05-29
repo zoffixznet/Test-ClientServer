@@ -15,5 +15,5 @@ Caveats
 * Synchronising the server and client startup is done by abusing shell pipes and stdio. If you
   intend to output test results from the server, you'll need to echo them via the client. This will
   be fixed in a future version.
-* The shell for means you'll be running three separate perl6 processes. It's entirely possible
-  this module can cause unexpected crashes with out-of-memory errors.
+* The shell-based fork means you'll be running three separate perl6 processes. It's entirely
+  possible this module can cause unexpected crashes with out-of-memory errors.
