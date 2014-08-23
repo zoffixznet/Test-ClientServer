@@ -25,7 +25,9 @@ my $port = 7100;
         $socket.send($sent);
         my Str $received = $socket.recv();
 
-        is($received, $sent, 'echo test');
+        is($received, "Server says: $sent", 'echo test');
+
+        return;
     },
     # :server is similar to :client, but it should call the callback to signal
     # that it's ready itself.
@@ -41,8 +43,10 @@ my $port = 7100;
 
         my $client = $socket.accept();
         my $buf = $client.recv();
-        $client.send($buf);
+        $client.send("Server says: $buf");
         $client.close();
+
+        return;
     },
     # :timeout is 30 seconds by default. If anything is still running by then
     # it's killed.
