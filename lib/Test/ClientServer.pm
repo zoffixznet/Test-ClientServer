@@ -13,8 +13,8 @@ has Int $.timeout = 30;
 
 method run() {
     my Semaphore $wait .= new(0);
-    my $server = start { &.server.({ $wait.release }) };
-    my $client = start { &.client.({ $wait.acquire }) };
+    my $server = start { &.server.({ $wait.release }); Nil };
+    my $client = start { &.client.({ $wait.acquire }); Nil };
     my $expire = Promise.in($.timeout);
 
     for ^3 {
