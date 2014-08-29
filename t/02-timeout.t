@@ -16,4 +16,5 @@ throws_like {
 my $end = now - BEGIN now;
 
 ok(3 < $end < 10, 'Timeout works sanely')
-    or diag("Failure: 3 < $end < 10");
+    or diag("Failure: 3 < $end < 10")
+        and say 'Bail out! Not safe to run further tests without sane timeout behaviour.';
