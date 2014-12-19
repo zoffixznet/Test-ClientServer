@@ -7,8 +7,3 @@ bit easier to write and understand. For working examples, check the test files.
 
 It works by spinning off two threads for code blocks containing server/client
 code, and synchronising their startup using a semaphore.
-
-Known issues
-============
-
-* The timeout function is currently broken and poorly defined.
