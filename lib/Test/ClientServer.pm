@@ -1,4 +1,4 @@
-class Test::ClientServer:auth<github:flussence>:ver<2.0.0-pre.2>;
+class Test::ClientServer:auth<github:flussence>:ver<2.0.0-pre.4>;
 
 class X::Test::ClientServer is Exception {
     has Int $.timeout;
