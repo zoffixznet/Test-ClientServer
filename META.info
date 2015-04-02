@@ -3,6 +3,9 @@
     "version"       : "2.0.0-pre.4",
     "author"        : "github:flussence",
     "description"   : "Multithreading wrapper for testing network server/client code",
+    "provides"      : {
+        "Test::ClientServer" : "lib/Test/ClientServer.pm"
+    },
     "depends"       : [],
     "source-url"    : "git://github.com/flussence/Test-ClientServer.git"
 }
